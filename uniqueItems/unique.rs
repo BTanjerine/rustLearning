@@ -1,3 +1,4 @@
+//doesnt work but 
 fn unique(mut a: Vec<i32>, s: usize, e: usize, dup: bool) -> Vec<i32> {
      
     if a[s] == a[e] {
@@ -23,10 +24,12 @@ fn unique(mut a: Vec<i32>, s: usize, e: usize, dup: bool) -> Vec<i32> {
     }
 }
 
+//<n^2 i32 function
 fn unique_v2(mut a: Vec<i32>) -> Vec<i32> {
-    for (c, v) in a.iter().enumerate() {
-        for j in c..a.len(){
-            if a[c] == a[j as usize] {
+    for c  in 0..(a.len()-1) {
+        for j in c+1..(a.len()-1){
+            if a[c as usize] == a[j as usize] {
+                println!("removed {}", a[j as usize]);
                 a.remove(j as usize);
             }
         }
@@ -35,10 +38,31 @@ fn unique_v2(mut a: Vec<i32>) -> Vec<i32> {
     a
 }
 
-fn main(){
-    let d = vec![1, 2, 4, 5, 6, 6, 8];
-    
-    println!("{:?}", d);
+//<n^2 generic data function 
+fn unique_v3<T: Ord>(mut a: Vec<T>) -> Vec<T> {
+    for c  in 0..(a.len()-1) {
+        for j in c+1..(a.len()-1){
+            if a[c as usize] == a[j as usize] {
+                a.remove(j as usize);
+            }
+        }
+    }
 
-    println!("{:?}", unique(d, 0, 6, false));
+    a
+}
+
+//using premade functions
+fn unique_v4<T: Ord>(mut a: Vec<T>) -> Vec<T> {
+    a.sort();
+    a.dedup();
+    a
+}
+
+fn main(){
+    let d = vec!['a', 'b', 'c', 'd', 'e', 'f', 'b'];
+    let f = vec![3,6,8,9,1,8,3,2];
+
+    println!("{:?}", f);
+
+    println!("{:?}", unique_v4(f));
 }
